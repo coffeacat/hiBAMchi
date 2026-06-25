@@ -66,17 +66,6 @@ p {
 	cursor: pointer;
 }
 
-.candy {
-	width : 50px;
-	height : 50px;
-	background-image: url("./public/images/candy/perfume.png")
-}
-
-.candy:hover {
-	filter: brightness(150%);
-	cursor: pointer;
-}
-
 #settingsButton {
 	position: absolute;
 	width: 50px;
@@ -314,7 +303,7 @@ p {
 	height: 189px;
 	justify-content: center;
     text-align: center;
-	background-image: url("./public/images/ui/hibamchi_score.png");
+	background-image: url("./public/images/ui/hibamchi_score.webp");
 	background-repeat: no-repeat;
 	background-size: cover;
 }
@@ -356,7 +345,7 @@ p {
 	height: 178px;
 	justify-content: center;
     text-align: center;
-	background-image: url("./public/images/ui/hibamchi_cloud.png");
+	background-image: url("./public/images/ui/hibamchi_cloud.webp");
 	background-repeat: no-repeat;
 	background-size: cover;
 }
@@ -379,7 +368,7 @@ p {
 	bottom: 15%;
 	left: 75%;
 	transform: translate(-50%, -50%);
-	background-image: url("./public/images/ui/hibamchi_restart.png");
+	background-image: url("./public/images/ui/hibamchi_restart.webp");
 	background-repeat: no-repeat;
 	background-size: contain;
 	border: 3px solid rgba(101, 201, 241);

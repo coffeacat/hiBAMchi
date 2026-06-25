@@ -83,27 +83,27 @@ let candies = [
     {
 	    type: "perfume",
 		variant: "normal", // horizontal 4, vertical 4, bomb, full clear
-		sprite: "./public/images/candy/perfume.png"
+		sprite: "./public/images/candy/perfume.webp"
 	},{
 		type: "manatown",
 		variant: "normal", // horizontal 4, vertical 4, bomb, full clear
-		sprite: "./public/images/candy/manatown.png"
+		sprite: "./public/images/candy/manatown.webp"
 	},{
 		type: "bow",
 		variant: "normal", // horizontal 4, vertical 4, bomb, full clear
-		sprite: "./public/images/candy/bow.png"
+		sprite: "./public/images/candy/bow.webp"
 	},{
 		type: "clover",
 		variant: "normal", // horizontal 4, vertical 4, bomb, full clear
-		sprite: "./public/images/candy/clover.png"
+		sprite: "./public/images/candy/clover.webp"
 	},{
 	    type: "osmanthus",
 		variant: "normal", // horizontal 4, vertical 4, bomb, full clear
-		sprite: "./public/images/candy/osmanthus.png"
+		sprite: "./public/images/candy/osmanthus.webp"
 	},{
 		type: "note",
 		variant: "normal", // horizontal 4, vertical 4, bomb, full clear
-		sprite: "./public/images/candy/note.png"
+		sprite: "./public/images/candy/note.webp"
 	}
 ];
 
@@ -118,90 +118,91 @@ let special_candies = [
     {
 	    type: "perfume",
 		variant: "horizontal_4",
-		sprite: "./public/images/candy/perfume_side_stripe.png"
+		sprite: "./public/images/candy/perfume_side_stripe.webp"
 	},{
 		type: "manatown",
 		variant: "horizontal_4",
-		sprite: "./public/images/candy/manatown_side_stripe.png"
+		sprite: "./public/images/candy/manatown_side_stripe.webp"
 	},{
 		type: "bow",
 		variant: "horizontal_4",
-		sprite: "./public/images/candy/bow_side_stripe.png"
+		sprite: "./public/images/candy/bow_side_stripe.webp"
 	},{
 		type: "clover",
 		variant: "horizontal_4",
-		sprite: "./public/images/candy/clover_side_stripe.png"
+		sprite: "./public/images/candy/clover_side_stripe.webp"
 	},{
 	    type: "osmanthus",
 		variant: "horizontal_4",
-		sprite: "./public/images/candy/osmanthus_side_stripe.png"
+		sprite: "./public/images/candy/osmanthus_side_stripe.webp"
 	},{
 		type: "note",
 		variant: "horizontal_4",
-		sprite: "./public/images/candy/note_side_stripe.png"
+		sprite: "./public/images/candy/note_side_stripe.webp"
 	},{
 	    type: "perfume",
 		variant: "vertical_4",
-		sprite: "./public/images/candy/perfume_up_stripe.png"
+		sprite: "./public/images/candy/perfume_up_stripe.webp"
 	},{
 		type: "manatown",
 		variant: "vertical_4",
-		sprite: "./public/images/candy/manatown_up_stripe.png"
+		sprite: "./public/images/candy/manatown_up_stripe.webp"
 	},{
 		type: "bow",
 		variant: "vertical_4",
-		sprite: "./public/images/candy/bow_up_stripe.png"
+		sprite: "./public/images/candy/bow_up_stripe.webp"
 	},{
 		type: "clover",
 		variant: "vertical_4",
-		sprite: "./public/images/candy/clover_up_stripe.png"
+		sprite: "./public/images/candy/clover_up_stripe.webp"
 	},{
 	    type: "osmanthus",
 		variant: "vertical_4",
-		sprite: "./public/images/candy/osmanthus_up_stripe.png"
+		sprite: "./public/images/candy/osmanthus_up_stripe.webp"
 	},{
 		type: "note",
 		variant: "vertical_4",
-		sprite: "./public/images/candy/note_up_stripe.png"
+		sprite: "./public/images/candy/note_up_stripe.webp"
 	},{
 	    type: "perfume",
 		variant: "bomb",
-		sprite: "./public/images/candy/perfume_candy.png"
+		sprite: "./public/images/candy/perfume_candy.webp"
 	},{
 		type: "manatown",
 		variant: "bomb",
-		sprite: "./public/images/candy/manatown_candy.png"
+		sprite: "./public/images/candy/manatown_candy.webp"
 	},{
 		type: "bow",
 		variant: "bomb",
-		sprite: "./public/images/candy/bow_candy.png"
+		sprite: "./public/images/candy/bow_candy.webp"
 	},{
 		type: "clover",
 		variant: "bomb",
-		sprite: "./public/images/candy/clover_candy.png"
+		sprite: "./public/images/candy/clover_candy.webp"
 	},{
 	    type: "osmanthus",
 		variant: "bomb",
-		sprite: "./public/images/candy/osmanthus_candy.png"
+		sprite: "./public/images/candy/osmanthus_candy.webp"
 	},{
 		type: "note",
 		variant: "bomb",
-		sprite: "./public/images/candy/note_candy.png"
+		sprite: "./public/images/candy/note_candy.webp"
 	},{
         type: donutType,
         variant: donutVariant,
-        sprite: "./public/images/candy/donut.png"
+        sprite: "./public/images/candy/donut.webp"
     }
 ];
 
 let blankTile = {
 	type: "blank",
 	variant: "blank", // horizontal 4, vertical 4, bomb, full clear
-	sprite: "./public/images/candy/blank.png"
+	sprite: "./public/images/candy/blank.webp"
 };
 
 // store the bgm
 let bgm = new Audio("./public/audio/tokotokokizzu.mp3");
+bgm.play();
 bgm.autoplay = true;
 bgm.loop = true;
 
@@ -285,12 +286,11 @@ var currImage;
 var otherImage;
 var candy_value = 50;
 let globalMatchCap;
-var isPlaying = false;
 var countdownInterval;
 var candyInterval;
 var boardInterval;
 var setTimer;
-var bpm = 138;
+var bpm = 136;
 
 var prevLine = null;
 
@@ -312,7 +312,7 @@ function loadGame() {
             // if (currentCandy.type == 2) {
                 // tile.classList.add('candy2');
             // }
-            //// tile.style.backgroundImage = url("donut.png");
+            //// tile.style.backgroundImage = url("donut.webp");
             // console.log(tile.classList[1]);
 			tile.src = currentCandy.sprite;
             tile.classList.add("prevent-select");
@@ -2024,18 +2024,3 @@ function setMute(slider, bar, value, speaker, volume) {
         value.innerHTML = volume;
     }
 }
-
-// autoplays music
-/*function playMusic() {
-    if (isPlaying) {
-        console.log("mute");
-        audioButton.src = "./public/images/ui/SpeakerMute.png";
-        music.muted = true;
-    } else {
-        console.log("sound on");
-        audioButton.src = "./public/images/ui/SpeakerOn.png";
-        music.muted = false;
-    }
-
-    isPlaying = !isPlaying;
-}*/
