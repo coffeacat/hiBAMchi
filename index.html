@@ -3,25 +3,92 @@
   	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--dynamic sizing for devices-->
-		<title>mana to the beat wip</title>
+		<title>hiBAMchi! wip</title>
 		<link rel="icon" type="image/png"
-		href="./public/images/hosiisi.png">
+		href="./public/images/ui/hosiisi.png">
 		<link rel="stylesheet" href="style.css">
 		<script src="game.js" defer></script>
 		<noscript>JavaScript is disabled in your browser. Please enable it to use this feature.</noscript>
   	</head>
 
 	<body id="body">
-		<button id="audioButton">
-			<img id="audioImage" width=25px height=auto src="./public/images/SpeakerMute.png">
-			<audio id="track"
-				src="./public/audio/Lets Go! - Mario & Luigi_ Superstar Saga OST.mp3"
-					type="audio/mpeg"
-					autoplay
-					loop>
-			</audio>
-		</button>
-		<div id="board"></div>
+		<div class="wrapper">
+			<div class="content">
+				
+				<div id="timerContainer">
+					<p id="timer" class="prevent-select">0:00</p>
+				</div>
+				<div id="scoreContainer" class="container">
+					<p id="scoreLabel" class="label prevent-select">SCORE</p>
+					<p id="score" class="prevent-select">0</p>
+				</div>
+				<div id="comboContainer" class="container">
+					<p id="comboLabel" class="label prevent-select">COMBO</p>
+					<p id="combo" class="prevent-select">x0</p>
+				</div>
+				
+				<button id="settingsButton">
+				</button>
+
+				<div id="menuOverlay" class="overlay" draggable="false"></div>
+				<div id="menu" draggable="false">
+					<svg id="menuExit" draggable="false" onclick="closeMenu()">
+						<image class="svgImage" href="./public/images/ui/cross.svg" />
+					</svg>
+					<div id="menuLabel" class="prevent-select" draggable="false">SOUND MENU</div>
+					<div id="bgm" class="sliderContainer" draggable="false">
+						<div class="sliderLabel prevent-select">BGM</div>
+						<svg class="muteSpeaker">
+							<image id="bgmSpeaker" class="svgImage" href="./public/images/ui/volume.svg" />
+						</svg>
+						<div class="slider">
+							<input id="bgmInput" draggable="false" type="range" min="0" max="100" value="100">
+							<progress id="bgmBar" draggable="false" min="0" max="100" value="100"></progress>
+						</div>
+						<div id="bgmValue" draggable="false" class="sliderValue prevent-select">100</div>
+					</div>
+					<div id="sfx" class="sliderContainer">
+						<div class="sliderLabel prevent-select">SFX</div>
+						<svg class="muteSpeaker">
+							<image id="sfxSpeaker" class="svgImage" href="./public/images/ui/volume.svg" />
+						</svg>
+						<div class="slider">
+							<input id="sfxInput" type="range" min="0" max="100" value="100">
+							<progress id="sfxBar" min="0" max="100" value="100"></progress>
+						</div>
+						<div id="sfxValue" class="sliderValue prevent-select">100</div>
+					</div>
+					<div id="voice" class="sliderContainer">
+						<div class="sliderLabel prevent-select">VOICE</div>
+						<svg class="muteSpeaker">
+							<image id="voiceSpeaker" class="svgImage" href="./public/images/ui/volume.svg" />
+						</svg>
+						<div class="slider">
+							<input id="voiceInput" type="range" min="0" max="100" value="100">
+							<progress id="voiceBar" min="0" max="100" value="100"></progress>
+						</div>
+						<div id="voiceValue" class="sliderValue prevent-select">100</div>
+					</div>
+				</div>
+				</div>
+				
+				<div id="countdownContainer" class="overlay">
+					<p id="countdownLabel" class="overlayLabel">
+					</p>
+				</div>
+				<div id="finalScoreContainer" class="overlay">
+					<p id="finalScoreMessage" class="overlayLabel">
+					</p>
+					<button id="OKButton" onclick="removeScoreOverlay()">
+						OK
+					</button>
+				</div>
+				<div id="board"></div>
+				
+				<button id="playButton" onclick="restartGame()">
+				</button>
+			</div>
+		</div>
   	</body>
 
 </html>

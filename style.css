@@ -1,31 +1,64 @@
-body {
-	background: url("./public/images/Hoohoo_Mountain_SkyView.png") no-repeat center fixed;
-	background-size: cover;
-	background-color: pink;
+@import url('./public/fonts/nunito.css');
+@import url('./public/fonts/pally.css');
 
-  	font-size: 20px;
+body {
+	/* background: url("./public/images/ui/gamebg_back2.webp") no-repeat center fixed;
+	background-size: cover; */
+	width: 100%;
+	overflow: hidden;
+  	
+	font-size: 26px;
   	font-family: sans-serif;
 }
 
+div {
+	font-family: Pally-Variable;
+	font-weight: 450;
+	background-size: contain;
+}
+
+p {
+	font-family: Pally-Variable;
+	font-weight: 450;
+	font-size: 26px;
+}
+
+/* wrapper and content classes are just to simulate 16:9 aspect ratio
+   you can remove them if you'd like */
+.wrapper {
+  display: inline-block; /* shrink to fit */
+  width: 1920px;           /* whatever width you like */
+  height: 1080px;
+  position: relative;    /* so .content can use position: absolute */
+  margin: 0 auto;
+}
+.content {
+  position: absolute;
+  background: url("./public/images/ui/gamebg_back2.webp") no-repeat top fixed;
+  background-size: contain;
+  top: 0; bottom: 0; right: 0; left: 0;  /* follow the parent's edges */
+  outline: 2px thin green;            /* just so you can see the box */
+}
+
 #board {
-	width: 500px;
-	height: 500px;
+	width: 700px;
+	height: 700px;
 	background-color: rgba(224, 255, 255, 0.5);
-	border: 5px solid slategrey;
+	border: 7px solid #467280;
 	opacity: 1;
 	border-radius: 10px; /* rounds the border */
 	margin: 0;
 	position: absolute;
 	top: 50%;
-	left: 50%;
+	left: 35%;
 	transform: translate(-50%, -50%);
 	display: flex; /* why flex and not grid? */
 	flex-wrap: wrap;
 }
 
 #board img {
-	width : 50px;
-	height : 50px;
+	width: 70px;
+	height: 70px;
 }
 
 #board img:hover {
@@ -33,24 +66,361 @@ body {
 	cursor: pointer;
 }
 
-#audioButton {
+.candy {
+	width : 50px;
+	height : 50px;
+	background-image: url("./public/images/candy/perfume.png")
+}
+
+.candy:hover {
+	filter: brightness(150%);
+	cursor: pointer;
+}
+
+.candy2 {
+	background-image: url("./public/images/candy/manatown.png")
+}
+
+#settingsButton {
 	position: absolute;
+	width: 50px;
+	height: 50px;
 	top: 10px; /* relative to this position */
 	right: 10px;
 	margin: 10px; /* offset from position */
+	z-index: 2;
 	/* background-color: transparent; */
-	/* background-image: url("./public/images/SpeakerMute.png"); */
+	background-image: url("./public/images/ui/settings.svg");
 	background-size: cover; /* ensures the image takes up the entire area */
-	padding: 5px 5px; /* size of the button essentially */
+	padding: 1px 1px; /* size of the button essentially */
 	/* border: none; */
 	cursor: pointer;
 }
 
-#score {
-	position: relative;
+#menuOverlay {
+	height: 100%;
+	width: 0%;
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.5);
 }
 
-  	#scoreContainer {
+#menu {
+	position: absolute;
+	opacity: 0;
+	padding: 100px;
+	width: 750px;
+	height: 400px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, 150%);
+	transition: 0.5s ease-in-out;
+	background-color: rgb(236, 225, 201);
+	border: 3px solid black;
+	border-radius: 75px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-content: center;
+	z-index: 2;
+}
+
+#menuLabel {
+	text-align: center;
+	margin-bottom: 75px;
+	font-family: Pally-Bold;
+	font-size: 64px;
+}
+
+#menuExit {
+	position: absolute;
+	width: 75px;
+	height: 75px;
+	top: 80px;
+	right: 25px;
+	transform: translate(-50%, -50%);
+	cursor: pointer;
+	transition: filter 0.3s ease;
+}
+
+#menuExit:hover {
+	filter: invert(17%) sepia(81%) saturate(6015%) hue-rotate(2deg) brightness(99%) contrast(98%);
+}
+
+.muteSpeaker {
+	margin: auto;
+	float: right;
+	position: relative;
+	width: 70px;
+	height: 70px;
+	/* transition: filter 0.3s ease; */
+}
+
+.muteSpeaker:hover {
+	cursor: pointer;
+	filter: brightness(0) saturate(100%) invert(46%) sepia(0%) saturate(264%) hue-rotate(190deg) brightness(87%) contrast(80%);
+	/*fill: red;
+	stroke: #646464;
+	stroke-width: 1px;
+	stroke-dasharray: 2,2;
+	stroke-linejoin: round;*/
+}
+
+.svgImage {
+	width: 100%;
+	height: 100%;
+}
+
+.sliderContainer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+}
+
+.slider {
+	display: inline-block;
+	margin: auto 70px;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	width: 300px;
+	height: 20px;
+}
+
+.slider input {
+	-webkit-appearance: none;
+	appearance: none;
+	position: absolute;
+	left: -50px;
+	top: -7px;
+	width: 400px;
+	height: 30px;
+	background-color: transparent;
+	z-index: 99;
+}
+
+.slider input::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 40px;
+	height: 40px;
+	background-color: white;
+	border: 5px solid #e91e63;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: all 100ms ease-in-out;
+}
+
+.slider input::-webkit-slider-thumb:hover {
+	background-color: rgb(218, 236, 236);
+}
+
+.slider progress {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 375px;
+	height: 30px;
+	position: absolute;
+	top: -5px;
+	left: -40px;
+	border-radius: 25px;
+	overflow: hidden;
+}
+
+.slider progress::-webkit-progress-bar {
+	background-color: #f0f0f0;
+}
+
+.slider progress::-webkit-progress-value {
+	background-color: #e91e63;
+}
+
+.sliderValue {
+	margin: auto;
+	margin-left: 20px;
+	font-size: 38px;
+	min-width: 75px;
+	float: right;
+}
+
+.sliderLabel {
+	margin: auto;
+	font-size: 38px;
+	min-width: 115px;
+	float: left;
+}
+
+/* #timer {
+	position: absolute;
+	top: 5%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+} */
+
+.overlay {
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0,0,0, 0.5);
+}
+
+.overlayLabel {
+	font-size: 48px;
+	width: 100%;
+	text-align: center;
+	color: white;
+}
+
+.container {
+	position: absolute;
+	margin: 20px auto;
+  	width: 241px;
+	height: 189px;
+	justify-content: center;
+    text-align: center;
+	background-image: url("./public/images/ui/hibamchi_score.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.container p {
+	color: #065e79;
+	margin: 3px auto;
+	position: relative;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+  	text-align: center;
+}
+
+.label {
+	font-size: 28px;
+}
+
+#scoreContainer {
+	position: absolute;
+	top: 43%;
+	left: 70%;
+	transform: translate(-50%, -50%);
+}
+
+#comboContainer {
+	position: absolute;
+	top: 53%;
+	left: 80%;
+	transform: translate(-50%, -50%);
+}
+
+#timerContainer {
+	position: absolute;
+	top: 25%;
+	left: 75%;
+	transform: translate(-50%, -50%);
+	width: 294px;
+	height: 178px;
+	justify-content: center;
+    text-align: center;
+	background-image: url("./public/images/ui/hibamchi_cloud.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+#timerContainer p {
+	margin: 1px auto;
+	font-size: 48px;
+	position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+  	text-align: center;
+	outline: thin green;
+}
+
+#playButton {
+	position: absolute;
+	width: 325px;
+	height: 84px;
+	bottom: 15%;
+	left: 75%;
+	transform: translate(-50%, -50%);
+	background-image: url("./public/images/ui/hibamchi_restart.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+	border: 3px solid rgba(101, 201, 241);
+	border-radius: 20px;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+}
+
+#playButton:hover {
+  transform: translate(-50%, -50%) scale(1.25);
+  filter: brightness(110%);
+}
+
+#playButton[disabled] {
+	transform: translate(-50%, -50%);
+	filter: grayscale(150%);
+}
+
+/*#scoreLabel {
+	position: absolute;
+	top: 9%;
+	left: 40%;
+	transform: translate(-50%, -50%);
+}
+
+#score {
+	position: absolute;
+	top: 12%;
+	left: 40%;
+	transform: translate(-50%, -50%);
+}
+
+#comboLabel {
+	position: absolute;
+	top:9%;
+	left: 60%;
+	transform: translate(-50%, -50%);
+}
+
+#combo {
+	position: absolute;
+	top: 12%;
+	left: 60%;
+	transform: translate(-50%, -50%);
+} */
+
+#OKButton {
+	padding: 7px 15px;
+	font-size: 26px;
+	display: none;
+}
+
+#OKButton:hover {
+	cursor: pointer;
+}
+
+.prevent-select {
+	-webkit-user-select: none; /* Safari */
+	-ms-user-select: none; /* IE 10 and IE 11 */
+	user-select: none; /* Standard syntax */
+}
+
+  	/* #scoreContainer {
   	margin : 20px auto;
   	background-color: white;
   	opacity: 0.8;
@@ -74,4 +444,4 @@ body {
   	font-size: 1.5em;
   	font-weight: bold;
   	text-align: center;
-  	}
+  	} */
