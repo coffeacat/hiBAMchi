@@ -15,14 +15,14 @@
 		<div class="wrapper">
 			<div class="content">
 				
-				<div id="timerContainer">
+				<div id="timerContainer prevent-select">
 					<p id="timer" class="prevent-select">0:00</p>
 				</div>
-				<div id="scoreContainer" class="container">
+				<div id="scoreContainer" class="container prevent-select">
 					<p id="scoreLabel" class="label prevent-select">SCORE</p>
 					<p id="score" class="prevent-select">0</p>
 				</div>
-				<div id="comboContainer" class="container">
+				<div id="comboContainer" class="container prevent-select">
 					<p id="comboLabel" class="label prevent-select">COMBO</p>
 					<p id="combo" class="prevent-select">x0</p>
 				</div>
@@ -30,22 +30,22 @@
 				<button id="settingsButton">
 				</button>
 
-				<div id="menuOverlay" class="overlay" draggable="false"></div>
-				<div id="menu" draggable="false">
-					<svg id="menuExit" draggable="false" onclick="closeMenu()">
+				<div id="menuOverlay" class="overlay prevent-select"></div>
+				<div id="menu" class="prevent-select">
+					<svg id="menuExit" onclick="closeMenu()">
 						<image class="svgImage" href="./public/images/ui/cross.svg" />
 					</svg>
-					<div id="menuLabel" class="prevent-select" draggable="false">SOUND MENU</div>
-					<div id="bgm" class="sliderContainer" draggable="false">
+					<div id="menuLabel" class="prevent-select">SOUND MENU</div>
+					<div id="bgm" class="sliderContainer">
 						<div class="sliderLabel prevent-select">BGM</div>
 						<svg class="muteSpeaker">
 							<image id="bgmSpeaker" class="svgImage" href="./public/images/ui/volume.svg" />
 						</svg>
 						<div class="slider">
-							<input id="bgmInput" draggable="false" type="range" min="0" max="100" value="100">
-							<progress id="bgmBar" draggable="false" min="0" max="100" value="100"></progress>
+							<input id="bgmInput" type="range" min="0" max="100" value="100">
+							<progress id="bgmBar" min="0" max="100" value="100"></progress>
 						</div>
-						<div id="bgmValue" draggable="false" class="sliderValue prevent-select">100</div>
+						<div id="bgmValue" class="sliderValue prevent-select">100</div>
 					</div>
 					<div id="sfx" class="sliderContainer">
 						<div class="sliderLabel prevent-select">SFX</div>
@@ -70,20 +70,19 @@
 						<div id="voiceValue" class="sliderValue prevent-select">100</div>
 					</div>
 				</div>
-				</div>
 				
-				<div id="countdownContainer" class="overlay">
+				<div id="countdownContainer" class="overlay prevent-select">
 					<p id="countdownLabel" class="overlayLabel">
 					</p>
 				</div>
-				<div id="finalScoreContainer" class="overlay">
-					<p id="finalScoreMessage" class="overlayLabel">
+				<div id="finalScoreContainer" class="overlay prevent-select">
+					<p id="finalScoreMessage" class="overlayLabel prevent-select">
 					</p>
 					<button id="OKButton" onclick="removeScoreOverlay()">
 						OK
 					</button>
 				</div>
-				<div id="board"></div>
+				<div id="board" class="prevent-select"></div>
 				
 				<button id="playButton" onclick="restartGame()">
 				</button>

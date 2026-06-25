@@ -77,10 +77,6 @@ p {
 	cursor: pointer;
 }
 
-.candy2 {
-	background-image: url("./public/images/candy/manatown.png")
-}
-
 #settingsButton {
 	position: absolute;
 	width: 50px;
@@ -97,7 +93,7 @@ p {
 	cursor: pointer;
 }
 
-#menuOverlay {
+/* #menuOverlay {
 	height: 100%;
 	width: 0%;
 	position: absolute;
@@ -109,7 +105,7 @@ p {
 	justify-content: center;
 	align-items: center;
 	background-color: rgba(0, 0, 0, 0.5);
-}
+}*/
 
 #menu {
 	position: absolute;
@@ -197,6 +193,9 @@ p {
 
 .slider input {
 	-webkit-appearance: none;
+	-moz-appearance: none;
+	-o-appearance: none;
+	-ms-appearance: none;
 	appearance: none;
 	position: absolute;
 	left: -50px;
@@ -218,12 +217,30 @@ p {
 	transition: all 100ms ease-in-out;
 }
 
+.slider input::-moz-range-thumb {
+	appearance: none;
+	width: 40px;
+	height: 40px;
+	background-color: white;
+	border: 5px solid #e91e63;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: all 100ms ease-in-out;
+}
+
 .slider input::-webkit-slider-thumb:hover {
+	background-color: rgb(218, 236, 236);
+}
+
+.slider input::-moz-range-thumb:hover {
 	background-color: rgb(218, 236, 236);
 }
 
 .slider progress {
 	-webkit-appearance: none;
+	-moz-appearance: none;
+	-o-appearance: none;
+	-ms-appearance: none;
 	appearance: none;
 	width: 375px;
 	height: 30px;
@@ -239,6 +256,10 @@ p {
 }
 
 .slider progress::-webkit-progress-value {
+	background-color: #e91e63;
+}
+
+.slider progress::-moz-progress-bar {
 	background-color: #e91e63;
 }
 
@@ -267,7 +288,7 @@ p {
 .overlay {
 	height: 100%;
 	width: 0;
-	position: fixed;
+	position: absolute;
 	z-index: 1;
 	top: 0;
 	left: 0;
