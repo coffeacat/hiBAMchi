@@ -261,7 +261,7 @@ p {
 }
 
 .slider progress::-moz-progress-bar {
-	background-color: orange;
+	background-color: e91e63;
 }
 
 .sliderValue {

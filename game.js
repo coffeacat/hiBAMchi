@@ -35,6 +35,7 @@ window.onload = function() {
     window.resizeTo(aspecW, aspecH)
     adapt();
     loadGame();
+    primeBoard();
 }
 
 window.onresize = function() {
@@ -418,12 +419,6 @@ function gameGo() {
         bgm.currentTime = 0; // and resets it
         bgm.play();
 
-        // resets score and combo
-        score = 0;
-        combo = 0;
-        scoreBox.innerHTML = score;
-        comboBox.innerHTML = "x" + combo;
-
         // deletes/resets the 3 second countdown (for future use)
         clearInterval(countdownInterval);
         countdownTimer.innerHTML = "";
@@ -431,7 +426,13 @@ function gameGo() {
     }, 3000 // gives 3 seconds to analyze the board
     )
 
-     // shows the 3 second countdown
+    // resets score and combo
+    score = 0;
+    combo = 0;
+    scoreBox.innerHTML = score;
+    comboBox.innerHTML = "x" + combo;
+    
+    // shows the 3 second countdown
     var threeSeconds = 3;
     countdownOverlay.style.width = "100%";
     countdownTimer.innerHTML = threeSeconds;
