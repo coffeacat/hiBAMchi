@@ -90,13 +90,21 @@
 					<p id="countdownLabel" class="overlayLabel">
 					</p>
 				</div>
-				<div id="finalScoreContainer" class="overlay prevent-select">
-					<p id="finalScoreMessage" class="overlayLabel prevent-select">
-					</p>
-					<button id="OKButton" onclick="removeScoreOverlay()">
-						OK
-					</button>
+				
+				<div id="finalScoreOverlay" class="overlay prevent-select">
+					<div id="finalScorePopup" class="popupContainer flexboxVertical">
+					<button class ="popupX" onclick="removeScoreOverlay()"></button>
+					<div id="finalScoreContainer" class="flexboxVertical">
+						<p id="finalScoreMessage" class="prevent-select">
+						</p>
+						<p>Press OK to continue.</p>
+						<button id="OKButton" onclick="removeScoreOverlay()">
+							OK
+						</button>
+					</div>
+					</div>
 				</div>
+					
 				<div id="board" class="prevent-select"></div>
 				
 				<button id="playButton" onclick="restartGame()">

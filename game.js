@@ -1,6 +1,7 @@
 // select all elements
-const finalScoreOverlay = document.getElementById("finalScoreContainer");
-const finalScoreBox = document.getElementById("finalScoreMessage");
+const finalScoreOverlay = document.getElementById("finalScoreOverlay");
+const finalScorePopup = document.getElementById("finalScorePopup");
+const finalScoreMessage = document.getElementById("finalScoreMessage");
 const scoreBox = document.getElementById("score");
 const comboBox = document.getElementById("combo");
 
@@ -27,7 +28,7 @@ const playButton = document.getElementById("playButton")
 const timer = document.getElementById("timer");
 const countdownOverlay = document.getElementById("countdownContainer");
 const countdownTimer = document.getElementById("countdownLabel");
-const OKButton = document.getElementById("OKButton");
+// const OKButton = document.getElementById("OKButton");
 
 let aspecW = 1920;
 let aspecH = 1080;
@@ -303,7 +304,7 @@ let bgm = new Audio("./public/audio/とことこきっず.mp3");
 bgm.autoplay = true;
 bgm.loop = true;
 bgmVolume();
-bgm.play();
+// bgm.play();
 
 document.addEventListener('click', playMusic, { once: true });
 
@@ -454,7 +455,10 @@ function gameGo() {
     // start game conditions
     window.setTimeout(function() {
         // sets and updates timer for the game
+        clearInterval(setTimer);
+        // console.log("clear timer interval");
         setTimer = setInterval(timerCountDown, 1000);
+        // console.log("setTimer interval");
 
         // resets the bgm
         bgm.pause();   // pauses the bgm
@@ -463,6 +467,7 @@ function gameGo() {
 
         // deletes/resets the 3 second countdown (for future use)
         clearInterval(countdownInterval);
+        // console.log("clear countdown interval");
         countdownTimer.innerHTML = "";
         countdownOverlay.style.width = "0%";
     }, 3000 // gives 3 seconds to analyze the board
@@ -479,7 +484,11 @@ function gameGo() {
     countdownOverlay.style.width = "100%";
     countdownTimer.innerHTML = threeSeconds;
 
+    clearInterval(countdownInterval);
+    // console.log("clear countdown interval");
     countdownInterval = window.setInterval(function() {
+        // console.log("set countdown interval");
+
         threeSeconds--;
         countdownTimer.innerHTML = threeSeconds;
     }, 1000 // counts down the 3 seconds
@@ -567,12 +576,15 @@ function endGame() {
     comboBox.innerHTML = "x" + combo;
 
     finalScoreOverlay.style.width = "100%";
-    finalScoreBox.innerHTML = "You scored<br/>" + score + "<br/><br/>Press OK to continue.";
-    OKButton.style.display = "inline-flex";
+    finalScoreMessage.innerHTML = "You scored<br/>" + score;
+    finalScorePopup.style.display = "inline-flex"
+    // OKButton.style.display = "inline-flex";
+
 
     enableDrag();
 
     clearInterval(setTimer);
+    // console.log("clear timer interval");
 }
 
 function timerCountDown() {
@@ -607,9 +619,10 @@ function transferArray(arr, transfer) {
 }
 
 function removeScoreOverlay() {
+    finalScorePopup.style.display = "none"
     finalScoreOverlay.style.width = "0%";
-    finalScoreBox.innerHTML = "";
-    OKButton.style.display = "none";
+    finalScoreMessage.innerHTML = "";
+    // OKButton.style.display = "none";
 }
 
 function dragStart() {
