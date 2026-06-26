@@ -291,6 +291,7 @@ var playerAction = false;
 var boardModified = false;
 var matchedSpecial = false;
 var donutActivated = false;
+var notPopulated = false;
 
 var currImage;
 var otherImage;
@@ -298,7 +299,7 @@ var candy_value = 50;
 let globalMatchCap;
 var countdownInterval;
 var candyInterval;
-var boardInterval;
+// var boardInterval;
 var setTimer;
 var bpm = 136;
 
@@ -388,7 +389,7 @@ function primeBoard() {
     disableDrag();
 
     clearInterval(candyInterval);
-    clearInterval(boardInterval);
+    // clearInterval(boardInterval);
 
     // scramble the board
     scramble();
@@ -407,11 +408,11 @@ function primeBoard() {
 	) // delayed from clearing candy so it checks after the candies
       // have settled into their new positions
 	
-	boardInterval = window.setInterval(function() {
+	/*boardInterval = window.setInterval(function() {
 		dropCandy();
 		generateCandy();
-	}, 25 // every 50ms, will "drop" candy over blank tiles and replace with new candy
-	)
+	}, 8 // every 50ms, will "drop" candy over blank tiles and replace with new candy
+	)*/
 
     clearBoard();
 
@@ -1878,6 +1879,15 @@ function clearImages(images) {
             images[i].src = blankTile.sprite;
             console.log("images1: " + images[i].src);
             reverseCrush(images[i]);
+            console.log("notPopulated before: " + notPopulated);
+            checkBlank();
+            console.log("notPopulated after: " + notPopulated);
+
+            while (notPopulated) {
+                dropCandy();
+                generateCandy();
+                checkBlank();
+            }
         }, animationTime)
     }
 }
@@ -1916,6 +1926,16 @@ function clearImagesSpecial(images, specialCandy, specialTile) {
                 images[i].src = blankTile.sprite;
             }
             reverseCrush(images[i]);
+
+            console.log("notPopulated before: " + notPopulated);
+            checkBlank();
+            console.log("notPopulated after: " + notPopulated);
+
+            while (notPopulated) {
+                dropCandy();
+                generateCandy();
+                checkBlank();
+            }
         }, animationTime)
     }
 }
@@ -2048,6 +2068,25 @@ function checkValid(currTile, otherTile) {
     }
 
     return false;
+}
+
+function checkBlank() {
+    console.log("checking for blanks");
+    let found = false;
+
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < columns; c++) {
+            let currImage = board[r][c];
+            console.log("current image coords: (" + r + ", " + c + ")");
+            console.log("image: " + currImage.src);
+            console.log("condition: " + currImage.src.includes(blankTile.sprite.substring(2)));
+            if (currImage.src.includes(blankTile.sprite.substring(2))) {
+                found = true;
+            }
+        }
+    }
+
+    notPopulated = found;
 }
 
 // drops the candy above empty tiles downwards
