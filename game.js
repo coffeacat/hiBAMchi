@@ -742,6 +742,8 @@ function checkCandy() {
     if (playerAction) {
         crushCandy();
         console.log("CRUSHED!");
+    } else {
+        enableDrag();
     }
     console.log("check candy");
 }
