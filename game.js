@@ -757,7 +757,7 @@ function crushCandy() {
     let matchArray = [];
     // crushFive();
     // crushFour();
-    console.log("donut? " + donutActivated);
+    // console.log("donut? " + donutActivated);
     if (donutActivated) {
         let donutArray = activateDonut(internalBoard[0][0], false)
         transferArray(matchArray, donutArray);
@@ -912,7 +912,7 @@ function matchMechanics(matchCandyTiles, matchCandyImages, matchFound, matchAmou
             
             // if the game hasn't started
             if (notClear) {
-                console.log("game not started");
+                // console.log("game not started");
                 // clear the tiles anyways
                 ignore = false;
             }
@@ -984,6 +984,8 @@ function activateStripe(candy) {
                     board[row][i].src = blankTile.sprite;
                     internalBoard[row][i].type = blankTile.type;
                     reverseCrush(board[row][i]);
+                    
+                    populate();
                 }, animationTime)
             // if the tile to clear is ANOTHER special candy
             } else if (internalBoard[row][i].variant != "normal" && 
@@ -1007,6 +1009,8 @@ function activateStripe(candy) {
                         internalBoard[row][i].type = blankTile.type;
                         internalBoard[row][i].variant = blankTile.variant;
                         reverseCrush(board[row][i]);
+
+                        populate();
                     }, animationTime)
                 }
             }
@@ -1023,6 +1027,8 @@ function activateStripe(candy) {
                     board[i][column].src = blankTile.sprite;
                     internalBoard[i][column].type = blankTile.type;
                     reverseCrush(board[i][column]);
+
+                    populate();
                 }, animationTime)
             } else if (internalBoard[i][column].variant != "normal" &&
                        internalBoard[i][column].variant != "blank") {
@@ -1041,6 +1047,8 @@ function activateStripe(candy) {
                         internalBoard[i][column].type = blankTile.type;
                         internalBoard[i][column].variant = blankTile.variant;
                         reverseCrush(board[i][column]);
+
+                        populate();
                     }, animationTime)
                 }
             }
@@ -1132,6 +1140,8 @@ function activateBomb(candy) {
                 board[currRow][currCol].src = blankTile.sprite;
                 internalBoard[currRow][currCol].type = blankTile.type;
                 reverseCrush(board[currRow][currCol]);
+
+                populate();
             }, animationTime)
         // if it's a special candy activate it
         } else if (internalBoard[currRow][currCol].variant != "normal" &&
@@ -1150,6 +1160,8 @@ function activateBomb(candy) {
                     internalBoard[currRow][currCol].type = blankTile.type;
                     internalBoard[currRow][currCol].variant = blankTile.variant;
                     reverseCrush(board[currRow][currCol]);
+
+                    populate();
                 }, animationTime)
             }
         }
@@ -1330,37 +1342,19 @@ function activateDonut(candy, random) {
                 board[currRow][currCol].src = blankTile.sprite;
                 reverseCrush(board[currRow][currCol]);
                 curr.type = blankTile.type;
+
+                populate();
             }, animationTime);
         }
     }
-    
-    /* for (let r = 0; r < rows; r++) {
-            for (let c = 0; c < columns; c++) {
-                // clear all type
-                //if ( == type)
-                // if special candy activate it
-            }
-        } */
 
     // add any special arrays to the clear tiles
     transferArray(clearTiles, specialArrays);
 
-    console.log("all bomb tiles");
+    console.log("all donut tiles");
     for (let k = 0; k < clearTiles.length; k++) {
         console.log("coords: (" + clearTiles[k].row + ", " + clearTiles[k].column +
         "); type: " + clearTiles[k].type + "; variant: " + clearTiles[k].variant);
-    }
-
-    
-
-    // remove donut
-
-    for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < columns; c++) {
-            // clear all type
-            //if ( == type)
-            // if special candy activate it
-        }
     }
 
     // add this array to any special arrays
@@ -1561,12 +1555,12 @@ function checkBomb(matchTiles, matchImages, horizontal) {
 
                 let checkCandies = [];
 
-                console.log("check row: " + row);
-                console.log("check column: " + column);
+                // console.log("check row: " + row);
+                // console.log("check column: " + column);
                 
                 // if there is room up
                 if (row > 2) {
-                    console.log("CHECKING 2 UP");
+                    // console.log("CHECKING 2 UP");
                     // check 2 tiles up
                     checkCandies.push(internalBoard[row-2][column]);
                     checkCandies.push(internalBoard[row-1][column]);
@@ -1574,16 +1568,16 @@ function checkBomb(matchTiles, matchImages, horizontal) {
 
                 // if there is room down
                 if (row <= 7) {
-                    console.log("CHECKING 2 DOWN");
+                    // console.log("CHECKING 2 DOWN");
                     // check 2 tiles down
                     checkCandies.push(internalBoard[row+1][column]);
                     checkCandies.push(internalBoard[row+2][column]);
                 }
 
-                for (let i = 0; i < checkCandies.length; i++) {
-                    console.log("check candy " + i + " position: (" +
-                    checkCandies[i].row + ", " + checkCandies[i].column + ")");
-                }
+                // for (let i = 0; i < checkCandies.length; i++) {
+                    // console.log("check candy " + i + " position: (" +
+                    // checkCandies[i].row + ", " + checkCandies[i].column + ")");
+                // }
 
                 // records whether there was a match 5 found or not
                 matchFive = findMatchFive(checkTile, horizontal);
@@ -1591,7 +1585,6 @@ function checkBomb(matchTiles, matchImages, horizontal) {
                 // if there's not a match 5 found
                 if (!matchFive) {
                     isBomb = checkBombMechanics(checkTile, checkCandies, matchTiles, matchImages);
-                    console.log("found bomb? " + isBomb);
                 }
 
             }
@@ -1609,12 +1602,12 @@ function checkBomb(matchTiles, matchImages, horizontal) {
 
                 let checkCandies = [];
                 
-                console.log("check row: " + row);
-                console.log("check column: " + column);
+                // console.log("check row: " + row);
+                // console.log("check column: " + column);
 
                 // if there is room up and down
                 if (row != 0 && row != 9) {
-                    console.log("CHECKING 1 UP AND 1 DOWN");
+                    // console.log("CHECKING 1 UP AND 1 DOWN");
                     // check 1 tile up and 1 tile down
                     checkCandies.push(internalBoard[row-1][column]);
                     checkCandies.push(internalBoard[row+1][column]);
@@ -1626,7 +1619,6 @@ function checkBomb(matchTiles, matchImages, horizontal) {
                 // if there's not a match 5 found
                 if (!matchFive) {
                     isBomb = checkBombMechanics(checkTile, checkCandies, matchTiles, matchImages);
-                    console.log("found bomb? " + isBomb);
                 }
 
             }
@@ -1647,19 +1639,19 @@ function checkBomb(matchTiles, matchImages, horizontal) {
 
                 let checkCandies = [];
                 
-                console.log("check row: " + row);
-                console.log("check column: " + column);
+                // console.log("check row: " + row);
+                // console.log("check column: " + column);
 
                 // if there is room left
                 if (column > 2) {
-                    console.log("CHECKING 2 LEFT");
+                    // console.log("CHECKING 2 LEFT");
                     // check 2 tiles left
                     checkCandies.push(internalBoard[row][column-2]);
                     checkCandies.push(internalBoard[row][column-1]);
                 }
 
                 if (column <= 7) {
-                    console.log("CHECKING 2 RIGHT");
+                    // console.log("CHECKING 2 RIGHT");
                     // check 2 tiles right
                     checkCandies.push(internalBoard[row][column+1]);
                     checkCandies.push(internalBoard[row][column+2]);
@@ -1687,12 +1679,12 @@ function checkBomb(matchTiles, matchImages, horizontal) {
 
                 let checkCandies = [];
 
-                console.log("check row: " + row);
-                console.log("check column: " + column);
+                // console.log("check row: " + row);
+                // console.log("check column: " + column);
                 
                 // if there is room left and right
                 if (column != 0 && column != 9) {
-                    console.log("CHECKING 1 LEFT AND 1 RIGHT");
+                    // console.log("CHECKING 1 LEFT AND 1 RIGHT");
                     // check 1 tile left and 1 tile right
                     checkCandies.push(internalBoard[row][column-1]);
                     checkCandies.push(internalBoard[row][column+1]);
@@ -1785,11 +1777,11 @@ function checkBombMechanics(checkTile, checkCandies, matchTiles, matchImages) {
         // depending on what's added to checkCandies
         // checks checkCandies if anything was added to it
 
-        console.log("checking candies " + i + " & " + (i+1));
-        console.log("checking candy " + i + ": (" + checkCandies[i].row + ", " + checkCandies[i].column + ")");
-        console.log("type: " + checkCandies[i].type);
-        console.log("checking candy " + (i+1) + ": (" + checkCandies[i+1].row + ", " + checkCandies[i+1].column + ")");
-        console.log("type: " + checkCandies[i+1].type);
+        // console.log("checking candies " + i + " & " + (i+1));
+        // console.log("checking candy " + i + ": (" + checkCandies[i].row + ", " + checkCandies[i].column + ")");
+        // console.log("type: " + checkCandies[i].type);
+        // console.log("checking candy " + (i+1) + ": (" + checkCandies[i+1].row + ", " + checkCandies[i+1].column + ")");
+        // console.log("type: " + checkCandies[i+1].type);
 
         if (checkCandies[i].type == checkTile.type &&
             checkCandies[i+1].type == checkTile.type) {
@@ -1811,7 +1803,7 @@ function checkBombMechanics(checkTile, checkCandies, matchTiles, matchImages) {
         }
     }
 
-    console.log("found bomb mechanic? " + isBomb);
+    // console.log("found bomb mechanic? " + isBomb);
     return isBomb;
 }
 
@@ -1871,7 +1863,7 @@ function boardMechanics(cleared) {
             
 }
 
-function clearImages(images) {
+/*function clearImages(images) {
     for (let i = 0; i < images.length; i++) {
         console.log("images1: " + images[i].src);
         animateCrush(images[i]);
@@ -1879,18 +1871,10 @@ function clearImages(images) {
             images[i].src = blankTile.sprite;
             console.log("images1: " + images[i].src);
             reverseCrush(images[i]);
-            console.log("notPopulated before: " + notPopulated);
-            checkBlank();
-            console.log("notPopulated after: " + notPopulated);
-
-            while (notPopulated) {
-                dropCandy();
-                generateCandy();
-                checkBlank();
-            }
+            populate();
         }, animationTime)
     }
-}
+}*/
 
 function clearImagesSpecial(images, specialCandy, specialTile) {
     let selectedImage = document.getElementById(specialTile.row + "-" + specialTile.column);
@@ -1927,21 +1911,13 @@ function clearImagesSpecial(images, specialCandy, specialTile) {
             }
             reverseCrush(images[i]);
 
-            console.log("notPopulated before: " + notPopulated);
-            checkBlank();
-            console.log("notPopulated after: " + notPopulated);
-
-            while (notPopulated) {
-                dropCandy();
-                generateCandy();
-                checkBlank();
-            }
+            populate();
         }, animationTime)
     }
 }
 
 function clearTiles(tiles, images) {
-    clearImages(images);
+    // clearImages(images);
 
     let clear = [];
     console.log("regular clear activated");
@@ -1951,8 +1927,23 @@ function clearTiles(tiles, images) {
             tiles[i].variant != "blank") {
             transferArray(clear, activateSpecialCandy(tiles[i], false));
         } else {
-            tiles[i].type = blankTile.type;
-            tiles[i].variant = blankTile.variant;
+            animateCrush(images[i]);
+            window.setTimeout(function() {
+                console.log("images b" + i + ": " + images[i].src);
+                console.log("tile type b" + i + ": " + tiles[i].type);
+                console.log("variant type b" + i + ": " + tiles[i].variant);
+                images[i].src = blankTile.sprite;
+                tiles[i].type = blankTile.type;
+                tiles[i].variant = blankTile.variant;
+                console.log("images a" + i + ": " + images[i].src);
+                console.log("tile type a" + i + ": " + tiles[i].type);
+                console.log("variant type a" + i + ": " + tiles[i].variant);
+                reverseCrush(images[i]);
+                populate();
+                console.log("images a" + i + ": " + images[i].src);
+                console.log("tile type a" + i + ": " + tiles[i].type);
+                console.log("variant type a" + i + ": " + tiles[i].variant);
+        }, animationTime)
         }
     }
 
@@ -1986,7 +1977,7 @@ function clearTilesSpecial(tiles, images, specialCandy) {
     }
     console.log("selected tile coords: (" + selectedTile.row + ", " + selectedTile.column + ")");
 
-    clearImagesSpecial(images, specialCandy, selectedTile);
+    // clearImagesSpecial(images, specialCandy, selectedTile);
 
     // places the special candy where you swapped it
     // or at a random location
@@ -1996,17 +1987,26 @@ function clearTilesSpecial(tiles, images, specialCandy) {
             transferArray(clear, activateSpecialCandy(tiles[i], false));
         }
         
-        if (selectedTile != tiles[i]) {
-            // skip
-            console.log("blank tile");
-            tiles[i].type = blankTile.type;
-            tiles[i].variant = blankTile.variant;
-        }
-    }
+        // normal tiles
+        
+        console.log("blank tile");
+        animateCrush(images[i]);
+        window.setTimeout(function() {
+            if (selectedTile == tiles[i]) {
+                console.log("TRIGGERED SPECIAL TILE");
+                board[selectedTile.row][selectedTile.column].src = specialCandy.sprite;
+                selectedTile.type = specialCandy.type;
+                selectedTile.variant = specialCandy.variant;
+            } else {
+                images[i].src = blankTile.sprite;
+                tiles[i].type = blankTile.type;
+                tiles[i].variant = blankTile.variant;
+            }
+            reverseCrush(images[i]);
 
-    console.log("TRIGGERED SPECIAL TILE");
-    selectedTile.type = specialCandy.type;
-    selectedTile.variant = specialCandy.variant;
+            populate();
+        }, animationTime)
+    }
 
     matchedSpecial = true;
 
@@ -2070,17 +2070,29 @@ function checkValid(currTile, otherTile) {
     return false;
 }
 
+function populate() {
+    console.log("notPopulated before: " + notPopulated);
+    checkBlank();
+    console.log("notPopulated after: " + notPopulated);
+    while (notPopulated) {
+        console.log("a");
+        dropCandy();
+        generateCandy();
+        checkBlank();
+    }
+}
+
 function checkBlank() {
-    console.log("checking for blanks");
+    // console.log("checking for blanks");
     let found = false;
 
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < columns; c++) {
-            let currImage = board[r][c];
-            console.log("current image coords: (" + r + ", " + c + ")");
-            console.log("image: " + currImage.src);
-            console.log("condition: " + currImage.src.includes(blankTile.sprite.substring(2)));
-            if (currImage.src.includes(blankTile.sprite.substring(2))) {
+            let currTile = internalBoard[r][c];
+            // console.log("current image coords: (" + r + ", " + c + ")");
+            // console.log("image: " + currImage.src);
+            // console.log("condition: " + currImage.src.includes(blankTile.sprite.substring(2)));
+            if (currTile.type == blankTile.type) {
                 found = true;
             }
         }
@@ -2099,7 +2111,8 @@ function dropCandy() {
             // console.log("column: " + c + "\nrow: " + r);
             let selectedImage = board[r][c];
             let selectedTile = internalBoard[r][c];
-            if (!selectedImage.src.includes(blankTile.sprite.substring(2))) {
+            //!selectedImage.src.includes(blankTile.sprite.substring(2))
+            if (selectedTile.type != blankTile.type) {
                 // if tile is not blank, move to bottom of the board
                 if (i != r) {
                     board[i][c].src = selectedImage.src;
@@ -2108,6 +2121,7 @@ function dropCandy() {
                     
                     // console.log("image: " + selectedImage.src);
                     // console.log("type: " + selectedTile.type);
+                    // console.log("type: " + selectedTile.variant);
                     // console.log("condition value: " + selectedImage.src.search(selectedTile.type));
                     if (selectedImage.src.search(selectedTile.type) == -1) {
                         console.log("DROP CANDY ERROR");
@@ -2137,7 +2151,8 @@ function dropCandy() {
 function generateCandy() {
     for (let c = 0; c < columns; c++) {
         // if top tile of any column is empty
-        if (board[0][c].src.includes(blankTile.sprite.substring(2))) {
+        // board[0][c].src.includes(blankTile.sprite.substring(2))
+        if (internalBoard[0][c].type == blankTile.type) {
             // generates new candy
             let newCandy = randomize(candies);
             let matchCandyIndex;
