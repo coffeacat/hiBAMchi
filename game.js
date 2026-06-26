@@ -7,7 +7,7 @@ const comboBox = document.getElementById("combo");
 const settings = document.getElementById("settingsButton");
 const infoButton = document.getElementById("infoButton");
 const menu = document.getElementById("menu");
-const info = document.getElementById("infoCard");
+const info = document.getElementById("infoBackground");
 const infoOverlay = document.getElementById("infoOverlay");
 const menuOverlay = document.getElementById("menuOverlay");
 const bgmSlider = document.getElementById("bgmInput");
@@ -2299,7 +2299,7 @@ function openInfo() {
     if (!infoVisable) {
         infoVisable = true;
         info.style.opacity = "1";
-        info.style.transform = "translate(-50%, 200%)";
+        info.style.transform = "translate(-50%, -50%)";
         infoOverlay.style.width = "100%";
     } else {
         closeInfo();

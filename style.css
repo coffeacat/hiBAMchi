@@ -90,7 +90,7 @@ p {
 	cursor: pointer;
 }
 
-/* #infoButton {
+#infoButton {
 	position: absolute;
 	width: 50px;
 	height: 50px;
@@ -105,6 +105,7 @@ p {
 }
 
 #infoBackground {
+	position: absolute;
 	opacity: 1;
 	padding: 100px;
 	width: 750px;
@@ -112,7 +113,6 @@ p {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, 150%);
-	transition: 0.5s ease-in-out;
 	z-index: 2;
 
 	background-image: url("./public/images/ui/popup.webp") no-repeat center fixed;
@@ -136,7 +136,7 @@ p {
 	justify-content: space-around;
 	align-content: center;
 	z-index: 2;
-} */
+}
 
 #menu {
 	position: absolute;
