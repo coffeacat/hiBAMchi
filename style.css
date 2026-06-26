@@ -1,12 +1,19 @@
 @import url('./public/fonts/nunito.css');
 @import url('./public/fonts/pally.css');
 
+html {
+	height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-	/* background: url("./public/images/ui/gamebg_back2.webp") no-repeat center fixed;
-	background-size: cover; */
+	background: url("./public/images/ui/gamebg_back2.webp") no-repeat center / cover;
 	width: 100%;
+	height: 100%;
 	overflow: hidden;
-  	
+	margin: 0 auto;
+	padding: 0;
 	font-size: 26px;
   	font-family: sans-serif;
 }
@@ -26,18 +33,18 @@ p {
 /* wrapper and content classes are just to simulate 16:9 aspect ratio
    you can remove them if you'd like */
 .wrapper {
-  display: inline-block; /* shrink to fit */
-  width: 1920px;           /* whatever width you like */
-  height: 1080px;
-  position: relative;    /* so .content can use position: absolute */
-  margin: 0 auto;
+	display: inline-block; /* shrink to fit */
+	width: 1920px;           /* whatever width you like */
+	height: 1080px;
+	position: relative;    /* so .content can use position: absolute */
+	margin: 0 auto;
+	transform-origin: top left;
+	background: url("./public/images/ui/gamebg_back2.webp") no-repeat top fixed;
+	background-size: contain;
 }
 .content {
   position: absolute;
-  background: url("./public/images/ui/gamebg_back2.webp") no-repeat top fixed;
-  background-size: contain;
   top: 0; bottom: 0; right: 0; left: 0;  /* follow the parent's edges */
-  outline: 2px thin green;            /* just so you can see the box */
 }
 
 #board {
@@ -52,7 +59,7 @@ p {
 	top: 50%;
 	left: 35%;
 	transform: translate(-50%, -50%);
-	display: flex; /* why flex and not grid? */
+	display: flex; /* why flex and not grid??? */
 	flex-wrap: wrap;
 }
 
@@ -60,7 +67,7 @@ p {
 	width: 70px;
 	height: 70px;
 	object-position: center;
-	transition: 0.5s ease;
+	transition: 0.25s ease-in;
 }
 
 #board img:hover {

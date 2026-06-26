@@ -43,10 +43,7 @@ window.onresize = function() {
 }
 
 function adapt() {
-    // offset because the body is being weird
-    // and there's an extra slice of something to the right...
-    // remove offset if it causes issues
-    let winW = window.innerWidth - 16;
+    let winW = window.innerWidth;
     let winH = window.innerHeight;
     let el=document.querySelector(".wrapper")
     
@@ -62,11 +59,11 @@ function adapt() {
     if (winH/aspecH<scale) scale=winH/aspecH
     el.style.transform="scale("+scale+")";
     if (winW<=aspecW)
-        el.style.left=((winW-aspecW)/2).toFixed(2)+'px'
+        el.style.left=((winW-aspecW*scale)/2).toFixed(2)+'px'
     else
         el.style.left='0px'
 
-    el.style.top=((el.getBoundingClientRect().height-aspecH)/2).toFixed(2)+'px'
+    el.style.top=((el.getBoundingClientRect().height-aspecH*scale)/2).toFixed(2)+'px'
 }
 
 class Tile {
@@ -208,13 +205,16 @@ let blankTile = {
 };
 
 // store the bgm
-let bgm = new Audio("./public/audio/tokotokokizzu.mp3");
+let bgm = new Audio("./public/audio/とことこきっず.mp3");
 bgm.play();
 bgm.autoplay = true;
 bgm.loop = true;
 
+let startGameSfx = new Audio("./public/audio/システム決定音_3.mp3");
+let crushSfx = new Audio("./public/audio/ぷにょん.mp3");
+
 // store the combo sfx
-let combo_sfx = [
+/* let combo_sfx = [
     {
 		audio: new Audio("./public/audio/paper jam sfx/OK.wav")
 	},{
@@ -224,10 +224,10 @@ let combo_sfx = [
 	},{
 		audio: new Audio("./public/audio/paper jam sfx/Excellent.wav")
     }
-];
+]; */
 
 // store the ok voice lines
-let ok_voice = [
+/* let ok_voice = [
     {
 		audio: new Audio("./public/audio/wonder sfx/yes OR yeah/Voice_Peach_BeatJump_Combo4_00.wav")
 	}
@@ -270,9 +270,7 @@ let excellent_voice = [
 	},{
         audio: new Audio("./public/audio/wonder sfx/wow/Voice_Peach_PowerUp_Elephant_00.wav")
     }
-];
-
-let sfx = new Audio("./public/audio/paper jam sfx/OK.wav");
+]; */
 
 // create some variables
 var board = [];
@@ -358,6 +356,9 @@ function restartGame() {
     // should also set the play button to be disabled
     playButton.disabled = true;
 
+    // play sfx
+    startGameSfx.play();
+
     primeBoard();
 }
 
@@ -405,7 +406,7 @@ function primeBoard() {
 	boardInterval = window.setInterval(function() {
 		dropCandy();
 		generateCandy();
-	}, 100 // every 100ms, will "drop" candy over blank tiles and replace with new candy
+	}, 50 // every 100ms, will "drop" candy over blank tiles and replace with new candy
 	)
 
     clearBoard();
@@ -490,7 +491,7 @@ function scrambleCustom() {
         [ 0, 1, 2, 3, 4, 0, 1, 4, 3, 4 ],
         [ 4, 0, 1, 2, 3, 4, 0, 5, 4, 5 ],
         [ 3, 4, 0, 5, 2, 3, 4, 0, 5, 5 ],
-        [ 2, 3, 5, 0, 5, 5, 3, 5, 0, 1 ],
+        [ 2, 5, 5, 0, 5, 5, 3, 5, 0, 1 ],
         [ 1, 2, 3, 5, 0, 1, 2, 3, 4, 5 ],
         [ 0, 1, 2, 5, 4, 0, 1, 2, 3, 5 ],
         [ 4, 0, 5, 2, 5, 4, 0, 1, 2, 3 ],
@@ -555,6 +556,8 @@ function endGame() {
     finalScoreOverlay.style.width = "100%";
     finalScoreBox.innerHTML = "You scored<br/>" + score + "<br/><br/>Press OK to continue.";
     OKButton.style.display = "inline-flex";
+
+    enableDrag();
 
     clearInterval(setTimer);
 }
@@ -685,11 +688,13 @@ function dragEnd() {
             otherImage.src = currImage.src;
             currImage.src = temp;
 
-            temp = otherTile;
+            let tempType = otherTile.type;
+            let tempVariant = otherTile.variant
             otherTile.type = currTile.type;
             otherTile.variant = currTile.variant;
-            currTile.type = temp.type;
-            currTile.variant = temp.variant;
+            currTile.type = tempType;
+            currTile.variant = tempVariant;
+            
             enableDrag();
         } else {
             playerAction = true;
@@ -741,23 +746,29 @@ function checkCandy() {
 }
 
 function crushCandy() {
+    let matchArray = [];
     // crushFive();
     // crushFour();
-    crushThree();
-    // console.log("PA1: " + playerAction);
-    // console.log("BM1: " + boardModified);
     console.log("donut? " + donutActivated);
     if (donutActivated) {
-        let combo = calculateCombo(activateDonut(false));
-        if (combo != 0) {
-            boardMechanics(combo);
-        }
+        let donutArray = activateDonut(internalBoard[0][0], false)
+        transferArray(matchArray, donutArray);
         donutActivated = false;
     }
+    let crushArray = crushThree();
+    transferArray(matchArray, crushArray);
+    // console.log("PA1: " + playerAction);
+    // console.log("BM1: " + boardModified);
 
+    let tempCombo = calculateCombo(matchArray);
+    if (tempCombo != 0) {
+        boardMechanics(tempCombo);
+    }
+    
     if (!boardModified) {
         playerAction = false;
         matchedSpecial = false;
+
         // console.log("final score added: " + tempScore*combo);
         score += tempScore * combo;
         scoreBox.innerHTML = score;
@@ -840,10 +851,6 @@ function crushThree() {
         }
     }
 
-    let combo = calculateCombo(matchArray);
-    if (combo != 0) {
-        boardMechanics(combo);
-    }
     return matchArray;
 }
 
@@ -944,7 +951,7 @@ function activateSpecialCandy(candy, random) {
     }
 
     if (variant == donutVariant) {
-        clearArray = activateDonut(random);
+        clearArray = activateDonut(candy, random);
     }
 
     return clearArray;
@@ -964,26 +971,36 @@ function activateStripe(candy) {
             // if the tile to clear is the special candy
             if (candy == internalBoard[row][i]) {
                 clearTiles.push(internalBoard[row][i]);
-                internalBoard[row][i].type = blankTile.type;
+                animateCrush(board[row][i]);
                 internalBoard[row][i].variant = blankTile.variant;
-                board[row][i].src = blankTile.sprite;
+                window.setTimeout(function() {
+                    board[row][i].src = blankTile.sprite;
+                    internalBoard[row][i].type = blankTile.type;
+                    reverseCrush(board[row][i]);
+                }, animationTime)
             // if the tile to clear is ANOTHER special candy
             } else if (internalBoard[row][i].variant != "normal" && 
                        internalBoard[row][i].variant != "blank") {
                 console.log("activated special candy");
-                // activates the special candy and returns with another array
-                // with candies that special candy has cleared
-                let specialArray = activateSpecialCandy(internalBoard[row][i], true);
-                transferArray(specialArrays, specialArray);
+                    // activates the special candy and returns with another array
+                    // with candies that special candy has cleared
+                    let specialArray = activateSpecialCandy(internalBoard[row][i], true);
+                //window.setTimeout(function() {
+                    transferArray(specialArrays, specialArray);
+                //}, animationTime)
             // otherwise clears the tile if it's not already cleared
             } else {
                 console.log("activated r else");
                 if (internalBoard[row][i].type != "blank") {
                     console.log("not blank");
                     clearTiles.push(internalBoard[row][i]);
-                    internalBoard[row][i].type = blankTile.type;
-                    internalBoard[row][i].variant = blankTile.variant;
-                    board[row][i].src = blankTile.sprite;
+                    animateCrush(board[row][i]);
+                    window.setTimeout(function() {
+                        board[row][i].src = blankTile.sprite;
+                        internalBoard[row][i].type = blankTile.type;
+                        internalBoard[row][i].variant = blankTile.variant;
+                        reverseCrush(board[row][i]);
+                    }, animationTime)
                 }
             }
         }
@@ -993,21 +1010,31 @@ function activateStripe(candy) {
             console.log("coordinates: (" + i + ", " + column + ")");
             if (candy == internalBoard[i][column]) {
                 clearTiles.push(internalBoard[i][column]);
-                internalBoard[i][column].type = blankTile.type;
+                animateCrush(board[i][column]);
                 internalBoard[i][column].variant = blankTile.variant;
-                board[i][column].src = blankTile.sprite;
+                window.setTimeout(function() {
+                    board[i][column].src = blankTile.sprite;
+                    internalBoard[i][column].type = blankTile.type;
+                    reverseCrush(board[i][column]);
+                }, animationTime)
             } else if (internalBoard[i][column].variant != "normal" &&
                        internalBoard[i][column].variant != "blank") {
-                console.log("activated special candy");
-                let specialArray = activateSpecialCandy(internalBoard[i][column], true);
-                transferArray(specialArrays, specialArray);
+                    console.log("activated special candy");
+                    let specialArray = activateSpecialCandy(internalBoard[i][column], true);
+                //window.setTimeout(function() {
+                    transferArray(specialArrays, specialArray);
+                //}, animationTime)
             } else {
                 console.log("activated c else");
                 if (internalBoard[i][column].type != "blank") {
                     clearTiles.push(internalBoard[i][column]);
-                    internalBoard[i][column].type = blankTile.type;
-                    internalBoard[i][column].variant = blankTile.variant;
-                    board[i][column].src = blankTile.sprite;
+                    animateCrush(board[i][column]);
+                    window.setTimeout(function() {
+                        board[i][column].src = blankTile.sprite;
+                        internalBoard[i][column].type = blankTile.type;
+                        internalBoard[i][column].variant = blankTile.variant;
+                        reverseCrush(board[i][column]);
+                    }, animationTime)
                 }
             }
         }
@@ -1092,21 +1119,31 @@ function activateBomb(candy) {
         // if it's the bomb, clear it
         if (curr == candy) {
             console.log("go off");
-            internalBoard[currRow][currCol].type = blankTile.type;
+            animateCrush(board[currRow][currCol]);
             internalBoard[currRow][currCol].variant = blankTile.variant;
-            board[currRow][currCol].src = blankTile.sprite;
+            window.setTimeout(function() {
+                board[currRow][currCol].src = blankTile.sprite;
+                internalBoard[currRow][currCol].type = blankTile.type;
+                reverseCrush(board[currRow][currCol]);
+            }, animationTime)
         // if it's a special candy activate it
         } else if (internalBoard[currRow][currCol].variant != "normal" &&
                    internalBoard[currRow][currCol].variant != "blank") {
-            console.log("activate another bomb");
-            let specialArray = activateSpecialCandy(internalBoard[currRow][currCol], true);
-            transferArray(specialArrays, specialArray);
+                console.log("activate special candy");
+                let specialArray = activateSpecialCandy(internalBoard[currRow][currCol], true);
+            //window.setTimeout(function() {
+                transferArray(specialArrays, specialArray);
+            //}, animationTime)
         // if it's normal, clear it if it's not already cleared
         } else {
             if (internalBoard[currRow][currCol].type != "blank") {
-                internalBoard[currRow][currCol].type = blankTile.type;
-                internalBoard[currRow][currCol].variant = blankTile.variant;
-                board[currRow][currCol].src = blankTile.sprite;
+                animateCrush(board[currRow][currCol]);
+                window.setTimeout(function() {
+                    board[currRow][currCol].src = blankTile.sprite;
+                    internalBoard[currRow][currCol].type = blankTile.type;
+                    internalBoard[currRow][currCol].variant = blankTile.variant;
+                    reverseCrush(board[currRow][currCol]);
+                }, animationTime)
             }
         }
     }
@@ -1126,7 +1163,7 @@ function activateBomb(candy) {
 // random here is supposed to provide a case for the donut
 // to activate when it's destroyed by a special candy but
 // i might scrap it due to the lack of visual clarity
-function activateDonut(random) {
+function activateDonut(candy, random) {
     let clearTiles = [];
     let specialArrays = [];
 
@@ -1206,7 +1243,12 @@ function activateDonut(random) {
         let index = candyCount.indexOf(largest);
         type = candies[index].type;
         variant = candies[index].variant;
+
+        // clear donut
+        clearTiles.push(candy);
     }
+
+    console.log("selected donut type: " + type)
 
     // if the other tile is a donut
     if (variant == donutVariant) {
@@ -1255,23 +1297,33 @@ function activateDonut(random) {
         }
     }
 
+    console.log("selected donut variant: " + variant);
+
     // then clear the array
     for (let i = 0; i < clearTiles.length; i++) {
         let curr = clearTiles[i];
         let currRow = curr.row;
         let currCol = curr.column;
 
+        console.log("clear coords: (" + currRow + ", " + currCol + ")")
+
         // if stripe or bomb, activate it
         if (curr.variant != donutVariant && curr.variant != "normal" && curr.variant != "blank") {
             let specialArray = activateSpecialCandy(internalBoard[currRow][currCol], true);
-            transferArray(specialArrays, specialArray);
+            //window.setTimeout(function() {
+                transferArray(specialArrays, specialArray);
+            //}, animationTime);
         // otherwise, clear normally
         } else {
             // there shouldn't be any donut variants other than the one
             // activated and if the whole screen is cleared
-            curr.type = blankTile.type;
+            animateCrush(board[currRow][currCol]);
             curr.variant = blankTile.variant;
-            board[currRow][currCol].src = blankTile.sprite;
+            window.setTimeout(function() {
+                board[currRow][currCol].src = blankTile.sprite;
+                reverseCrush(board[currRow][currCol]);
+                curr.type = blankTile.type;
+            }, animationTime);
         }
     }
     
@@ -1815,7 +1867,12 @@ function boardMechanics(cleared) {
 function clearImages(images) {
     for (let i = 0; i < images.length; i++) {
         console.log("images1: " + images[i].src);
-        images[i].src = blankTile.sprite;
+        animateCrush(images[i]);
+        window.setTimeout(function() {
+            images[i].src = blankTile.sprite;
+            console.log("images1: " + images[i].src);
+            reverseCrush(images[i]);
+        }, animationTime)
     }
 }
 
@@ -1843,17 +1900,23 @@ function clearImagesSpecial(images, specialCandy, specialTile) {
     for (let i = 0; i < images.length; i++) {
         // console.log("curr id: " + otherImage.id);
         // console.log("image id: " + images[i].id);
-        if (selectedImage.id == images[i].id) {
-            console.log("TRIGGERED SPECIAL IMAGE");
-            images[i].src = specialCandy.sprite;
-        } else {
-            console.log("blank tile");
-            images[i].src = blankTile.sprite;
-        }
+        animateCrush(images[i]);
+        window.setTimeout(function() {
+            if (selectedImage.id == images[i].id) {
+                console.log("TRIGGERED SPECIAL IMAGE");
+                images[i].src = specialCandy.sprite;
+            } else {
+                console.log("blank tile");
+                images[i].src = blankTile.sprite;
+            }
+            reverseCrush(images[i]);
+        }, animationTime)
     }
 }
 
 function clearTiles(tiles, images) {
+    clearImages(images);
+
     let clear = [];
     console.log("regular clear activated");
     for (let i = 0; i < tiles.length; i++) {
@@ -1866,8 +1929,6 @@ function clearTiles(tiles, images) {
             tiles[i].variant = blankTile.variant;
         }
     }
-
-    clearImages(images);
 
     return clear;
 }
@@ -1898,8 +1959,11 @@ function clearTilesSpecial(tiles, images, specialCandy) {
         console.log("random coords: (" + selectedTile.row + ", " + selectedTile.column + ")");
     }
     console.log("selected tile coords: (" + selectedTile.row + ", " + selectedTile.column + ")");
+
+    clearImagesSpecial(images, specialCandy, selectedTile);
+
     // places the special candy where you swapped it
-    // or at the third tile of the match
+    // or at a random location
     for (let i = 0; i < tiles.length; i++) {
         if (tiles[i].variant != "normal" &&
             tiles[i].variant != "blank") {
@@ -1920,9 +1984,28 @@ function clearTilesSpecial(tiles, images, specialCandy) {
 
     matchedSpecial = true;
 
-    clearImagesSpecial(images, specialCandy, selectedTile);
-
     return clear;
+}
+
+let animationTime = 250;
+
+function animateCrush(image) {
+    image.style.transition = "all 25ms ease-out";
+    image.style.transform = "scale(1.10)";
+    window.setTimeout(function() {
+        image.style.transition = "all 0.250s ease-in";
+        image.style.transform = "scale(0)";
+    }, 25)
+}
+
+function reverseCrush(image) {
+    image.style.transition = "0s";
+    image.style.transform = "scale(1)";
+}
+
+function reverseCrushSpecial(image) {
+    image.style.transition = "all 0.5s ease-in";
+    image.style.transform = "scale(1)";
 }
 
 function checkValid(currTile, otherTile) {
@@ -2011,7 +2094,7 @@ function generateCandy() {
         // if top tile of any column is empty
         if (board[0][c].src.includes(blankTile.sprite.substring(2))) {
             // generates new candy
-            let newCandy = candies[5];// randomize(candies);
+            let newCandy = randomize(candies);
             let matchCandyIndex;
             for (let i = 0; i < candies.length; i++) {
                 if (newCandy.type == candies[i].type) {
@@ -2064,10 +2147,10 @@ function playMatchSFX() {
         // allows the same sound to play, even if it's already playing
         // if not --> awkward silence
 
-    let sfx;
-    let line;
+    let sfx = adjustVolume(crushSfx.cloneNode(true), crushSfx);
+    // let line;
     // let specialSfx = adjustVolume(???.cloneNode(true), ???);
-    if (matches == 1) {
+    /* if (matches == 1) {
         sfx = adjustVolume(combo_sfx[0].audio.cloneNode(true), combo_sfx[0].audio);
     } else if (matches == 2) {
         sfx = adjustVolume(combo_sfx[1].audio.cloneNode(true), combo_sfx[1].audio);
@@ -2085,13 +2168,13 @@ function playMatchSFX() {
         sfx = adjustVolume(combo_sfx[3].audio.cloneNode(true), combo_sfx[3].audio);
         line = rollLine(excellent_voice);
         line = adjustVolume(line.cloneNode(true), line);
-    }
+    }*/
 
     sfx.play();
 
-    if (matches > 1) {
+    /*if (matches > 1) {
         line.play();
-    }
+    }*/
 
     /* if (special) {
         specialSfx.play();
@@ -2127,7 +2210,7 @@ function closeMenu() {
 
 bgmSlider.addEventListener("input", bgmVolume);
 sfxSlider.addEventListener("input", sfxVolume);
-voiceSlider.addEventListener("input", voiceVolume);
+// voiceSlider.addEventListener("input", voiceVolume);
 
 let bgmSavedVolume = 100;
 let sfxSavedVolume = 100;
@@ -2142,7 +2225,7 @@ function bgmVolume() {
 function sfxVolume() {
     volumeControl(sfxSlider, sfxBar, sfxValue, sfxSpeaker);
     sfxSavedVolume = sfxSlider.value;
-    setArrayVolume(combo_sfx, sfxSavedVolume);
+    setVolume(crushSfx, sfxSavedVolume);
 }
 
 function voiceVolume() {
@@ -2181,7 +2264,7 @@ function setArrayVolume(audioArray, value) {
 
 bgmSpeaker.addEventListener("click", bgmMute);
 sfxSpeaker.addEventListener("click", sfxMute);
-voiceSpeaker.addEventListener("click", voiceMute);
+// voiceSpeaker.addEventListener("click", voiceMute);
 
 function bgmMute() {
     setMute(bgmSlider, bgmBar, bgmValue, bgmSpeaker, bgmSavedVolume);
@@ -2190,7 +2273,7 @@ function bgmMute() {
 
 function sfxMute() {
     setMute(sfxSlider, sfxBar, sfxValue, sfxSpeaker, sfxSavedVolume);
-    setArrayVolume(combo_sfx, sfxSlider.value);
+    setVolume(crushSfx, sfxSavedVolume);
 }
 
 function voiceMute() {
