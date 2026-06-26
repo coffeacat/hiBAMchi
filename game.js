@@ -497,11 +497,11 @@ function scrambleCustom() {
         [ 4, 0, 1, 2, 3, 4, 0, 5, 4, 5 ],
         [ 3, 4, 0, 5, 2, 3, 4, 0, 5, 5 ],
         [ 2, 5, 5, 0, 5, 5, 3, 5, 0, 1 ],
-        [ 1, 2, 3, 5, 0, 1, 2, 3, 4, 5 ],
-        [ 0, 1, 2, 5, 4, 0, 1, 2, 3, 5 ],
-        [ 4, 0, 5, 2, 5, 4, 0, 1, 2, 3 ],
-        [ 3, 4, 0, 1, 2, 3, 4, 0, 1, 2 ],
-        [ 2, 3, 4, 0, 1, 2, 3, 4, 0, 1 ],
+        [ 1, 2, 3, 0, 0, 1, 2, 3, 4, 5 ],
+        [ 1, 0, 0, 5, 4, 0, 1, 2, 3, 5 ],
+        [ 4, 0, 5, 0, 5, 4, 0, 1, 2, 3 ],
+        [ 3, 4, 0, 0, 2, 3, 4, 0, 1, 2 ],
+        [ 2, 3, 4, 4, 1, 2, 3, 4, 0, 1 ],
         [ 1, 2, 3, 4, 0, 1, 2, 3, 4, 0 ]
     ];
 
@@ -763,7 +763,7 @@ function crushCandy() {
         transferArray(matchArray, donutArray);
         donutActivated = false;
     }
-    let crushArray = crushThree();
+    let crushArray = crushThreePlus();
     transferArray(matchArray, crushArray);
     // console.log("PA1: " + playerAction);
     // console.log("BM1: " + boardModified);
@@ -797,7 +797,7 @@ function crushCandy() {
 }
 
 // how to account for special candies?
-function crushThree() {
+function crushThreePlus() {
     // let potentialMatches = 0;
     let matchCap = globalMatchCap;
     let matchArray = [];
@@ -867,7 +867,8 @@ function matchMechanics(matchCandyTiles, matchCandyImages, matchFound, matchAmou
     // match 5
     if (matchAmount == 5) {
         if (matchFound && matchCandyTiles[0].type != blankTile.type
-            && matchCandyTiles[0].type != donutType) {
+            && matchCandyTiles[0].type != donutType
+            && matchCandyTiles[0].type != "temp") {
             let donut = special_candies[special_candies.length - 1];
 
             comboArray = clearTilesSpecial(matchCandyTiles, matchCandyImages, donut);
@@ -877,7 +878,8 @@ function matchMechanics(matchCandyTiles, matchCandyImages, matchFound, matchAmou
     } else if (matchAmount == 4) {
         // if it's a match 5 ignore it
         if (matchFound && matchCandyTiles[0].type != blankTile.type
-            && matchCandyTiles[0].type != donutType) {
+            && matchCandyTiles[0].type != donutType
+            && matchCandyTiles[0].type != "temp") {
             let ignore = isMatchGreater(matchCandyTiles, horizontal);
             
             console.log("ignore the 4 match? " + ignore);
@@ -907,7 +909,8 @@ function matchMechanics(matchCandyTiles, matchCandyImages, matchFound, matchAmou
     // match 3 & bombs
     } else {
         if (matchFound && matchCandyTiles[0].type != blankTile.type
-            && matchCandyTiles[0].type != donutType) {
+            && matchCandyTiles[0].type != donutType
+            && matchCandyTiles[0].type != "temp") {
             let ignore = isMatchGreater(matchCandyTiles, horizontal);
             
             // if the game hasn't started
@@ -926,8 +929,9 @@ function matchMechanics(matchCandyTiles, matchCandyImages, matchFound, matchAmou
             
                 if (isBomb && !notClear) {
                     // find appropriate bomb candy
+                    console.log("bomb candy type: " + matchCandyTiles[0].type);
                     let bomb = findCandy(matchCandyTiles[0].type, bombVariant, special_candies);
-                    // console.log("bomb candy: " + specialCandy.type + " " + specialCandy.variant);
+                    console.log("bomb candy: " + bomb.type + " " + bomb.variant);
 
                     // clear special tiles and images
                     comboArray = clearTilesSpecial(matchCandyTiles, matchCandyImages, bomb);
@@ -978,6 +982,7 @@ function activateStripe(candy) {
             // if the tile to clear is the special candy
             if (candy == internalBoard[row][i]) {
                 clearTiles.push(internalBoard[row][i]);
+                // internalBoard[row][i].type = "temp";
                 animateCrush(board[row][i]);
                 internalBoard[row][i].variant = blankTile.variant;
                 window.setTimeout(function() {
@@ -1003,6 +1008,7 @@ function activateStripe(candy) {
                 if (internalBoard[row][i].type != "blank") {
                     console.log("not blank");
                     clearTiles.push(internalBoard[row][i]);
+                    // internalBoard[row][i].type = "temp";
                     animateCrush(board[row][i]);
                     window.setTimeout(function() {
                         board[row][i].src = blankTile.sprite;
@@ -1022,6 +1028,7 @@ function activateStripe(candy) {
             if (candy == internalBoard[i][column]) {
                 clearTiles.push(internalBoard[i][column]);
                 animateCrush(board[i][column]);
+                // internalBoard[i][column].type = "temp";
                 internalBoard[i][column].variant = blankTile.variant;
                 window.setTimeout(function() {
                     board[i][column].src = blankTile.sprite;
@@ -1041,6 +1048,7 @@ function activateStripe(candy) {
                 console.log("activated c else");
                 if (internalBoard[i][column].type != "blank") {
                     clearTiles.push(internalBoard[i][column]);
+                    // internalBoard[i][column].type = "temp";
                     animateCrush(board[i][column]);
                     window.setTimeout(function() {
                         board[i][column].src = blankTile.sprite;
@@ -1135,6 +1143,7 @@ function activateBomb(candy) {
         if (curr == candy) {
             console.log("go off");
             animateCrush(board[currRow][currCol]);
+            // internalBoard[currRow][currCol].type = "temp";
             internalBoard[currRow][currCol].variant = blankTile.variant;
             window.setTimeout(function() {
                 board[currRow][currCol].src = blankTile.sprite;
@@ -1154,6 +1163,7 @@ function activateBomb(candy) {
         // if it's normal, clear it if it's not already cleared
         } else {
             if (internalBoard[currRow][currCol].type != "blank") {
+                // internalBoard[currRow][currCol].type = "temp";
                 animateCrush(board[currRow][currCol]);
                 window.setTimeout(function() {
                     board[currRow][currCol].src = blankTile.sprite;
@@ -1337,6 +1347,7 @@ function activateDonut(candy, random) {
             // there shouldn't be any donut variants other than the one
             // activated and if the whole screen is cleared
             animateCrush(board[currRow][currCol]);
+            // internalBoard[currRow][currCol].type = "temp";
             curr.variant = blankTile.variant;
             window.setTimeout(function() {
                 board[currRow][currCol].src = blankTile.sprite;
@@ -1876,7 +1887,7 @@ function boardMechanics(cleared) {
     }
 }*/
 
-function clearImagesSpecial(images, specialCandy, specialTile) {
+/*function clearImagesSpecial(images, specialCandy, specialTile) {
     let selectedImage = document.getElementById(specialTile.row + "-" + specialTile.column);
     // let found = false;
 
@@ -1884,7 +1895,7 @@ function clearImagesSpecial(images, specialCandy, specialTile) {
     // console.log("special candy: " + specialCandy.sprite);
     
     // is coords player made?
-    /* for (let i = 0; i < images.length; i++) {
+    for (let i = 0; i < images.length; i++) {
         if (selectedImage.id == images[i].id) {
             found = true;
         }
@@ -1895,7 +1906,7 @@ function clearImagesSpecial(images, specialCandy, specialTile) {
     if (!found) {
         // selects the 3rd tile to put the special candy there
         selectedImage = images[2];
-    } */
+    }
     
     for (let i = 0; i < images.length; i++) {
         // console.log("curr id: " + otherImage.id);
@@ -1914,7 +1925,7 @@ function clearImagesSpecial(images, specialCandy, specialTile) {
             populate();
         }, animationTime)
     }
-}
+}*/
 
 function clearTiles(tiles, images) {
     // clearImages(images);
@@ -1927,6 +1938,8 @@ function clearTiles(tiles, images) {
             tiles[i].variant != "blank") {
             transferArray(clear, activateSpecialCandy(tiles[i], false));
         } else {
+            // tiles[i].type = "temp";
+            // console.log("temp flag normal")
             animateCrush(images[i]);
             window.setTimeout(function() {
                 console.log("images b" + i + ": " + images[i].src);
@@ -1990,6 +2003,8 @@ function clearTilesSpecial(tiles, images, specialCandy) {
         // normal tiles
         
         console.log("blank tile");
+        tiles[i].type = "temp";
+        console.log("temp flag special")
         animateCrush(images[i]);
         window.setTimeout(function() {
             if (selectedTile == tiles[i]) {
@@ -2123,7 +2138,7 @@ function dropCandy() {
                     // console.log("type: " + selectedTile.type);
                     // console.log("type: " + selectedTile.variant);
                     // console.log("condition value: " + selectedImage.src.search(selectedTile.type));
-                    if (selectedImage.src.search(selectedTile.type) == -1) {
+                    if (selectedTile.type != "temp" && selectedImage.src.search(selectedTile.type) == -1) {
                         console.log("DROP CANDY ERROR");
                         console.log("candy: " + board[r][c].src);
                         console.log("dropped from (" + r + ", " + c + ")");
