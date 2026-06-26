@@ -387,8 +387,8 @@ function primeBoard() {
     clearInterval(boardInterval);
 
     // scramble the board
-    // scramble();
-    scrambleCustom();
+    scramble();
+    // scrambleCustom();
 
     // player action is true initially to clear the board for matches
     playerAction = true;
