@@ -24,6 +24,14 @@ const voiceBar = document.getElementById("voiceBar");
 const voiceValue = document.getElementById("voiceValue");
 const voiceSpeaker = document.getElementById("voiceSpeaker");
 
+bgmSlider.addEventListener("input", bgmVolume);
+sfxSlider.addEventListener("input", sfxVolume);
+// voiceSlider.addEventListener("input", voiceVolume);
+
+bgmSpeaker.addEventListener("click", bgmMute);
+sfxSpeaker.addEventListener("click", sfxMute);
+// voiceSpeaker.addEventListener("click", voiceMute);
+
 const playButton = document.getElementById("playButton")
 const timer = document.getElementById("timer");
 const countdownOverlay = document.getElementById("countdownContainer");
@@ -362,7 +370,7 @@ function loadGame() {
 
 function restartGame() {
     // set timer here
-    timer.innerHTML = "0:05";
+    timer.innerHTML = "3:00";
 
     // start game value later allows score and combo to be reset
     startGame = true;
@@ -2322,10 +2330,6 @@ function closeInfo() {
     infoOverlay.style.width = "0%";
 }
 
-bgmSlider.addEventListener("input", bgmVolume);
-sfxSlider.addEventListener("input", sfxVolume);
-// voiceSlider.addEventListener("input", voiceVolume);
-
 function bgmVolume() {
     volumeControl(bgmSlider, bgmBar, bgmValue, bgmSpeaker);
     bgmSavedVolume = bgmSlider.value;
@@ -2371,10 +2375,6 @@ function setArrayVolume(audioArray, value) {
         setVolume(audioArray[i].audio, value);
     }
 }
-
-bgmSpeaker.addEventListener("click", bgmMute);
-sfxSpeaker.addEventListener("click", sfxMute);
-// voiceSpeaker.addEventListener("click", voiceMute);
 
 function bgmMute() {
     setMute(bgmSlider, bgmBar, bgmValue, bgmSpeaker, bgmSavedVolume);
