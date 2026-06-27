@@ -81,7 +81,7 @@ p {
 	top: 10px; /* relative to this position */
 	right: 10px;
 	margin: 10px; /* offset from position */
-	z-index: 2;
+	z-index: 3;
 	/* background-color: transparent; */
 	background-image: url("./public/images/ui/settings.svg");
 	background-size: cover; /* ensures the image takes up the entire area */
@@ -100,29 +100,50 @@ p {
 	background-image: url("./public/images/ui/info-02.svg");
 	background-size: cover;
 	padding: 1px 1px;
-	z-index: 2;
+	z-index: 3;
 	cursor: pointer;
 }
 
-#infoBackground {
-	position: absolute;
-	opacity: 1;
-	padding: 100px;
-	width: 750px;
-	height: 400px;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, 150%);
-	z-index: 2;
-
-	background-image: url("./public/images/ui/popup.webp") no-repeat center fixed;
-	background-size: contain;
+.infoLabel {
+	position: relative top;
+	margin: 0px;
+	margin-bottom: 30px;
+	font-family: Pally-Medium;
+	font-size: 32px;
 }
 
-#infoContainer {
-	position: absolute;
+.infoSinglePara {
+	margin: auto;
+	padding: auto;
+}
+
+.infoSegmentSmall p {
+	width: 450px;
+	height: 190px;
+	margin: 0px;
+}
+
+.infoSegmentLong p {
+	margin: 0px;
+}
+
+/* manatown is too fat and chuddy for the info box*/
+.infoBlocker {
+	width: 100px;
+}
+
+.candyImage {
+	margin: 10px 25px;
+
+	position: relative;
+	width: 70px;
+	height: 70px;
+}
+
+/*#infoContainer {
+	position: relative;
 	opacity: 0;
-	padding: 100px;
+	padding: 50px;
 	width: 750px;
 	height: 400px;
 	top: 50%;
@@ -136,7 +157,7 @@ p {
 	justify-content: space-around;
 	align-content: center;
 	z-index: 2;
-}
+}*/
 
 #menu {
 	position: absolute;
@@ -233,18 +254,37 @@ p {
 	stroke-linejoin: round;*/
 }
 
+.infoArrowButtons {
+	margin: 0px;
+	float: right;
+	position: relative;
+	width: 70px;
+	height: 70px;
+}
+
+.infoArrowButtons:hover {
+	cursor: pointer;
+	filter: brightness(0) saturate(100%) invert(23%) sepia(54%) saturate(1928%) hue-rotate(165deg) brightness(97%) contrast(95%);
+}
+
+#infoArrowButtonsContainer {
+	position: absolute;
+	right: -5%;
+	top: 85%;
+}
+
+.floatRight {
+	float: right;
+}
+
 .svgImage {
 	width: 100%;
 	height: 100%;
 }
 
 #finalScoreContainer {
-	position: relative;
-	top: 6%;
-	left: 9.5%;
 	width: 558px;
 	height: 391px;
-	z-index: 2;
 }
 
 #finalScoreContainer p {
@@ -257,13 +297,24 @@ p {
 	display: none;
 }
 
-.popupContainer {
+.popupBackground {
 	position: relative;
+	top: -4%;
+	left: -4.5%;
 	width: 1116px;
 	height: 782px;
 	background-image: url("./public/images/ui/popup.webp");
 	background-size: cover;
 	z-index: 1;
+}
+
+.popupContainer {
+	position: relative;
+	top: 6%;
+	left: 8%;
+	width: 700px;
+	height: 400px;
+	z-index: 2;
 }
 
 .popupX {
@@ -407,7 +458,7 @@ p {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	background-color: rgba(256,256,256, 0.0);
+	background-color: rgba(256,256,256, 0.5);
 }
 
 .overlay {
@@ -575,6 +626,14 @@ p {
 .flexboxVertical {
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.flexboxHorizontal {
+	display: flex;
+	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 	text-align: center;

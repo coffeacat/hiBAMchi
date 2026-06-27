@@ -362,7 +362,7 @@ function loadGame() {
 
 function restartGame() {
     // set timer here
-    timer.innerHTML = "3:00";
+    timer.innerHTML = "0:05";
 
     // start game value later allows score and combo to be reset
     startGame = true;
@@ -2311,8 +2311,6 @@ let infoVisable = false;
 function openInfo() {
     if (!infoVisable) {
         infoVisable = true;
-        info.style.opacity = "1";
-        info.style.transform = "translate(-50%, -50%)";
         infoOverlay.style.width = "100%";
     } else {
         closeInfo();
@@ -2321,8 +2319,6 @@ function openInfo() {
 
 function closeInfo() {
     infoVisable = false;
-    info.style.opacity = "0";
-    info.style.transform = "translate(-50%, 200%)";
     infoOverlay.style.width = "0%";
 }
 

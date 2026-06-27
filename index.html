@@ -74,13 +74,35 @@
 					</div>-->
 				</div>
 
-				<!--<div id="infoOverlay" class="overlayClear prevent-select"></div>
-				<div id="infoBackground" class="prevent-select">
-					<div id="infoCard" class="prevent-select">
-						<div class="infoContainer">
-							<div class="infoSegment">
-								<image class="candyImage prevent-select" href="./public/images/candy/manatown_side_stripe.webp" />
-								<p class="prevent-select">Striped candies are formed by matching 4 in a row! When used in a match, they'll clear the row or column they're on depending on the direction of the stripes!</p>
+				<!--<div id="infoOverlay" class="overlayClear prevent-select">
+					<div id="infoCard" class="popupBackground flexboxVertical prevent-select">
+						<button class="popupX" onclick="removeScoreOverlay()"></button>
+						<div class="popupContainer">
+							<div id="page1" class="flexboxVertical">
+								<p class="infoLabel prevent-select">About</p>
+								<p class="infoSinglePara prevent-select">hiBAMchi is a game that’s completely coded in vanilla HTML, CSS, & JavaScript and meant to mimic Candy Crush (& other similar matching games).</p>
+							</div>
+							<--<div id="page1">
+								<div class="infoSegmentSmall flexboxHorizontal">
+									<div class="infoBlocker"></div>
+									<div class="flexboxVertical">
+										<image class="candyImage prevent-select" src="./public/images/candy/bow_side_stripe.webp" />
+										<image class="candyImage prevent-select" src="./public/images/candy/clover_up_stripe.webp" />
+									</div>
+									<p class="prevent-select">Striped candies are formed by matching 4 candies in a row! When used in a match, they'll either clear the row or column they're in depending on the direction of the stripes!</p>
+								</div>
+								<div class="infoSegmentLong flexboxHorizontal">
+									<image class="candyImage prevent-select" src="./public/images/candy/osmanthus_candy.webp"/>
+									<p class="prevent-select">Bombs are formed by matching candies in a L, T, or + formation! Think of this as any two intersecting normal matches. When used in a match, they'll clear the surrounding 8 tiles!</p>
+								</div>
+							</div>--
+							<div id="infoArrowButtonsContainer" class="flexboxHorizontal floatRight">
+								<svg class="infoArrowButtons">
+									<image id="backInfo" class="svgImage" href="./public/images/ui/less-than.svg"/>
+								</svg>
+								<svg class="infoArrowButtons">
+									<image id="nextInfo" class="svgImage" href="./public/images/ui/greater-than.svg"/>
+								</svg>
 							</div>
 						</div>
 					</div>
@@ -92,16 +114,13 @@
 				</div>
 				
 				<div id="finalScoreOverlay" class="overlay prevent-select">
-					<div id="finalScorePopup" class="popupContainer flexboxVertical">
-					<button class ="popupX" onclick="removeScoreOverlay()"></button>
-					<div id="finalScoreContainer" class="flexboxVertical">
-						<p id="finalScoreMessage" class="prevent-select">
-						</p>
-						<p>Press OK to continue.</p>
-						<button id="OKButton" onclick="removeScoreOverlay()">
-							OK
-						</button>
-					</div>
+					<div id="finalScorePopup" class="popupBackground flexboxVertical prevent-select">
+						<button class ="popupX" onclick="removeScoreOverlay()"></button>
+						<div id="finalScoreContainer" class="popupContainer flexboxVertical">
+							<p id="finalScoreMessage" class="prevent-select"></p>
+							<p>Press OK to continue.</p>
+							<button id="OKButton" onclick="removeScoreOverlay()">OK</button>
+						</div>
 					</div>
 				</div>
 					
