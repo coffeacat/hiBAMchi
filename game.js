@@ -24,14 +24,6 @@ const voiceBar = document.getElementById("voiceBar");
 const voiceValue = document.getElementById("voiceValue");
 const voiceSpeaker = document.getElementById("voiceSpeaker");
 
-bgmSlider.addEventListener("input", bgmVolume);
-sfxSlider.addEventListener("input", sfxVolume);
-// voiceSlider.addEventListener("input", voiceVolume);
-
-bgmSpeaker.addEventListener("click", bgmMute);
-sfxSpeaker.addEventListener("click", sfxMute);
-// voiceSpeaker.addEventListener("click", voiceMute);
-
 const playButton = document.getElementById("playButton")
 const timer = document.getElementById("timer");
 const countdownOverlay = document.getElementById("countdownContainer");
@@ -214,8 +206,33 @@ let blankTile = {
 	sprite: "./public/images/candy/blank.webp"
 };
 
+let bgmSavedVolume = 50;
+let sfxSavedVolume = 100;
+let voiceSavedVolume = 100;
+
+// store the bgm
+let bgm = new Audio("./public/audio/とことこきっず.mp3");
+bgm.autoplay = true;
+bgm.loop = true;
+bgmVolume();
+// bgm.play();
+
+document.addEventListener('click', playMusic, { once: true });
+
+function playMusic() {
+    bgm.play();
+}
+
 let startGameSfx = new Audio("./public/audio/システム決定音_3.mp3");
 let crushSfx = new Audio("./public/audio/ぷにょん.mp3");
+
+bgmSlider.addEventListener("input", bgmVolume);
+sfxSlider.addEventListener("input", sfxVolume);
+// voiceSlider.addEventListener("input", voiceVolume);
+
+bgmSpeaker.addEventListener("click", bgmMute);
+sfxSpeaker.addEventListener("click", sfxMute);
+// voiceSpeaker.addEventListener("click", voiceMute);
 
 // store the combo sfx
 /* let combo_sfx = [
@@ -302,23 +319,6 @@ var candyInterval;
 // var boardInterval;
 var setTimer;
 var bpm = 136;
-
-let bgmSavedVolume = 50;
-let sfxSavedVolume = 100;
-let voiceSavedVolume = 100;
-
-// store the bgm
-let bgm = new Audio("./public/audio/とことこきっず.mp3");
-bgm.autoplay = true;
-bgm.loop = true;
-bgmVolume();
-// bgm.play();
-
-document.addEventListener('click', playMusic, { once: true });
-
-function playMusic() {
-    bgm.play();
-}
 
 var prevLine = null;
 
